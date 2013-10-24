@@ -22,9 +22,6 @@
         %p
           %label{ :for => :rbd_user }= t('.rbd_user')
           %input#rbd_user{:type => "text", :name => "volume/rbd/user", :'data-default' => @proposal.raw_data['attributes'][@proposal.barclamp]["volume"]["rbd"]["user"], :onchange => "update_value('volume/rbd/user', 'rbd_user', 'string')"}
-        %p
-          %label{ :for => :rbd_secret_uuid }= t('.rbd_secret_uuid')
-          %input#rbd_secret_uuid{:type => "text", :name => "volume/rbd/secret_uuid", :'data-default' => @proposal.raw_data['attributes'][@proposal.barclamp]["volume"]["rbd"]["secret_uuid"], :onchange => "update_value('volume/rbd/secret_uuid', 'rbd_secret_uuid', 'string')"}
     %div{ :id => 'netapp_parameters', :class => 'container' }
       %label.section-header{ :for => :netapp_div }= t('.netapp_parameters')
       %div.section{ :id => :netapp_div }

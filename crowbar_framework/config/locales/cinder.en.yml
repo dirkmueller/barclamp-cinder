@@ -67,6 +67,5 @@ en:
         ssl_ca_certs: SSL CA Certificates File
         rbd_pool: RADOS pool for Cinder volumes
         rbd_user: RADOS client name for accessing the volumes
-        rbd_secret_uuid: libvirt uuid of the secret for the rbd_uservolumes
       edit_deployment:
         deployment: Deployment
