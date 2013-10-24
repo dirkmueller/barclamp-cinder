@@ -28,6 +28,11 @@ node[:cinder][:monitor]={}
 node[:cinder][:monitor][:svcs] = []
 node[:cinder][:monitor][:ports]={}
 
+# will be used for the libvirt secret
+node[:cinder][:volume] = {}
+node[:cinder][:volume][:rbd] = {}
+node[:cinder][:volume][:rbd][:secret_uuid] = ''
+
 default[:cinder][:api][:protocol] = "http"
 
 default[:cinder][:ssl][:certfile] = "/etc/cinder/ssl/certs/signing_cert.pem"
@@ -36,3 +41,5 @@ default[:cinder][:ssl][:generate_certs] = false
 default[:cinder][:ssl][:insecure] = false
 default[:cinder][:ssl][:cert_required] = false
 default[:cinder][:ssl][:ca_certs] = "/etc/cinder/ssl/certs/ca.pem"
+
+default[:cinder][:volume][:rbd][:ceph_conf] = '/etc/ceph/ceph.conf'
