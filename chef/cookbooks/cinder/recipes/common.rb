@@ -191,7 +191,7 @@ if node[:cinder][:volume][:volume_type] == "rbd"
 
   if node[:platform] == "suse"
     package "ceph"
-    package "ceph-kmp-default"
+    package "python-ceph"
   end
 
 else
