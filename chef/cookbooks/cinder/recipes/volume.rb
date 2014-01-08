@@ -115,7 +115,7 @@ claimed_disks = BarclampLibrary::Barclamp::Inventory::Disk.claimed(node,"Cinder"
 
 case
 when node[:cinder][:volume][:volume_type] == "eqlx"
-when (node[:cinder][:volume][:volume_type] == "local")
+when node[:cinder][:volume][:volume_type] == "local"
   make_loopback_volume(node,volname)
 when node[:cinder][:volume][:volume_type] == "raw"
   make_volume(node,volname,unclaimed_disks,claimed_disks)
@@ -145,30 +145,34 @@ elsif %w(redhat centos suse).include? node.platform
   end
 end
 
-if %w(suse).include? node.platform
-  service "boot.lvm" do
-    action [:enable]
-  end
-end
-
 cinder_service("volume")
 
-# Restart doesn't work correct for this service.
-bash "restart-tgt_#{@cookbook_name}" do
-  unless %w(redhat centos suse).include? node.platform
-    code <<-EOH
-      stop tgt
-      start tgt
-EOH
-  else
-    code "service tgtd stop; service tgtd start"
+case
+when node[:cinder][:volume][:volume_type] == "local", node[:cinder][:volume][:volume_type] == "raw"
+  if %w(suse).include? node.platform
+    service "boot.lvm" do
+      action [:enable]
+    end
   end
-  action :nothing
-end
 
-service "tgt" do
-  supports :status => true, :restart => true, :reload => true
-  action :enable
-  service_name "tgtd" if %w(redhat centos suse).include? node.platform
-  notifies :run, "bash[restart-tgt_#{@cookbook_name}]"
+
+  # Restart doesn't work correct for this service.
+  bash "restart-tgt_#{@cookbook_name}" do
+    unless %w(redhat centos suse).include? node.platform
+      code <<-EOH
+        stop tgt
+        start tgt
+  EOH
+    else
+      code "service tgtd stop; service tgtd start"
+    end
+    action :nothing
+  end
+
+  service "tgt" do
+    supports :status => true, :restart => true, :reload => true
+    action :enable
+    service_name "tgtd" if %w(redhat centos suse).include? node.platform
+    notifies :run, "bash[restart-tgt_#{@cookbook_name}]"
+  end
 end
