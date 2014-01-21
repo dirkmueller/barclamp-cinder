@@ -153,16 +153,13 @@ end
 
 cinder_service("volume")
 
-case
-when node[:cinder][:volume][:volume_type] == "netapp"
-  file node[:cinder][:volume][:nfs_shares] do
-    content node[:cinder][:volume][:netapp][:nfs_shares]
-    owner "root"
-    group node[:cinder][:group]
-    mode "0640"
-    action :create
-    notifies :restart, resources(:service => "cinder-volume")
-  end
+file node[:cinder][:volume][:nfs_shares] do
+  content node[:cinder][:volume][:netapp][:nfs_shares]
+  owner "root"
+  group node[:cinder][:group]
+  mode "0640"
+  action node[:cinder][:volume][:volume_type] == "netapp" ? :create : :delete
+  notifies :restart, resources(:service => "cinder-volume")
 end
 
 # Restart doesn't work correct for this service.
