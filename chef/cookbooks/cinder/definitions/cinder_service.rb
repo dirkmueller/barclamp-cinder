@@ -30,6 +30,7 @@ define :cinder_service, :virtualenv => nil do
     supports :status => true, :restart => true
     action [:enable, :start]
     subscribes :restart, resources(:template => "/etc/cinder/cinder.conf")
+    subscribes :restart, resources("template[/etc/ceph/ceph.conf]")
   end
 
 end
