@@ -23,6 +23,7 @@
       "max_pool_size": 30,
       "max_overflow": 10,
       "pool_timeout": 30,
+      "rpc_response_timeout": 60,
       "pfs_deps": [
         "kpartx",
         "parted",
@@ -145,7 +146,7 @@
     "cinder": {
       "crowbar-revision": 0,
       "crowbar-applied": false,
-      "schema-revision": 36,
+      "schema-revision": 37,
       "element_states": {
           "cinder-controller": [ "readying", "ready", "applying" ],
           "cinder-volume": [ "readying", "ready", "applying" ]
