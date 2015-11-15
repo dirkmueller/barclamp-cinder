@@ -740,6 +740,10 @@ nova_api_insecure=<%= @nova_api_insecure %>
 # the direct_url.  Currently supported schemes: [file]. (list
 # value)
 #allowed_direct_url_schemes=
+<% if @show_storage_location -%>
+### Enable file and cinder if available
+allowed_direct_url_schemes=rbd
+<% end -%>
 
 
 #
